@@ -16,13 +16,13 @@ public class ClienteDao implements IClienteDao{
         PreparedStatement ps;
         ResultSet rs;
         Connection conexion = Conexion.getConection();
-        var select = "SELECT * FROM cliente ORDER BY id";
+        var select = "SELECT * FROM cliente ORDER BY idcliente";
         try{
             ps= conexion.prepareStatement(select);
             rs = ps.executeQuery();
             while(rs.next()){
                 var cliente = new Cliente();
-                cliente.setId(rs.getInt("idcliente"));
+                cliente.setId(rs.getInt("id"));
                 cliente.setNombre(rs.getString("nombre"));
                 cliente.setApellido(rs.getString("apellido"));
                 cliente.setMembresia(rs.getInt("membresia"));
@@ -30,13 +30,13 @@ public class ClienteDao implements IClienteDao{
             }
 
         } catch (Exception e) {
-            System.out.println("Error al listas los clientes" +e.getMessage());
+            System.out.println("Error al listas los clientes: " +e.getMessage());
         }
         finally {
             try {
                 conexion.close();
             }catch (Exception e){
-                System.out.println("Error al cerrar la conexion" +e.getMessage() );
+                System.out.println("Error al cerrar la conexion: " +e.getMessage() );
             }
         }
         return clientes;
