@@ -83,6 +83,21 @@ public class ClienteDao implements IClienteDao {
 
     @Override
     public boolean modificarClienten(Cliente cliente) {
+        var update= "UPDATE cliente SET nombre =?, apellido=?,membresia=? WHERE idcliente =?";
+        try{
+            ps = conexion.prepareStatement(update);
+            ps.setString(1, cliente.getNombre());
+            ps.setString(2, cliente.getApellido());
+            ps.setInt(3, cliente.getMembresia());
+            ps.setInt(4,cliente.getId());
+            ps.executeUpdate();
+            return true;
+        }catch (Exception e){
+            System.out.println("Error al modificar El usuarioM "+e.getMessage());
+        }
+        finally {
+            cerrarConexion();
+        }
         return false;
     }
 
