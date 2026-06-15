@@ -83,19 +83,18 @@ public class ClienteDao implements IClienteDao {
 
     @Override
     public boolean modificarClienten(Cliente cliente) {
-        var update= "UPDATE cliente SET nombre =?, apellido=?,membresia=? WHERE idcliente =?";
-        try{
+        var update = "UPDATE cliente SET nombre =?, apellido=?,membresia=? WHERE idcliente =?";
+        try {
             ps = conexion.prepareStatement(update);
             ps.setString(1, cliente.getNombre());
             ps.setString(2, cliente.getApellido());
             ps.setInt(3, cliente.getMembresia());
-            ps.setInt(4,cliente.getId());
+            ps.setInt(4, cliente.getId());
             ps.executeUpdate();
             return true;
-        }catch (Exception e){
-            System.out.println("Error al modificar El usuarioM "+e.getMessage());
-        }
-        finally {
+        } catch (Exception e) {
+            System.out.println("Error al modificar El usuarioM " + e.getMessage());
+        } finally {
             cerrarConexion();
         }
         return false;
@@ -103,6 +102,17 @@ public class ClienteDao implements IClienteDao {
 
     @Override
     public boolean eliminarCliente(Cliente cliente) {
+        var delete = "DELETE FROM cliente WHERE idcliente =?";
+        try {
+            ps = conexion.prepareStatement(delete);
+            ps.setInt(1,cliente.getId());
+            ps.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error, no se pudo eliminar cliente:" + e.getMessage());
+        } finally {
+            cerrarConexion();
+        }
         return false;
     }
 
