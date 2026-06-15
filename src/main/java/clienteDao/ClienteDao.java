@@ -51,14 +51,12 @@ public class ClienteDao implements IClienteDao {
                 cliente.setApellido(rs.getString("apellido"));
                 cliente.setMembresia(rs.getInt("membresia"));
                 return true;
-            }
-            else {
-                System.out.println("No existe el cliente con el id: "+cliente.getId());
+            } else {
+                System.out.println("No existe el cliente con el id: " + cliente.getId());
             }
         } catch (Exception e) {
             System.out.println("Error al buscaar el cliente por el id: " + e.getMessage());
-        }
-        finally {
+        } finally {
             cerrarConexion();
         }
 
@@ -67,6 +65,19 @@ public class ClienteDao implements IClienteDao {
 
     @Override
     public boolean agregarClinete(Cliente cliente) {
+        var insert = "INSERT INTO cliente (nombre, apellido, membresia VALUES(?,?,?))";
+        try {
+            ps = conexion.prepareStatement(insert);
+            ps.setString(1,cliente.getNombre());
+            ps.setString(2,cliente.getApellido());
+            ps.setInt(3,cliente.getMembresia());
+            ps.executeUpdate();
+            return true;
+        }catch (Exception e){
+            System.out.println("Error al insertar cliente: "+e.getMessage());
+        }finally {
+            cerrarConexion();
+        }
         return false;
     }
 
