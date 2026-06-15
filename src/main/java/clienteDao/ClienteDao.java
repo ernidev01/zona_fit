@@ -65,17 +65,17 @@ public class ClienteDao implements IClienteDao {
 
     @Override
     public boolean agregarClinete(Cliente cliente) {
-        var insert = "INSERT INTO cliente (nombre, apellido, membresia VALUES(?,?,?))";
+        var insert = "INSERT INTO cliente (nombre, apellido, membresia) VALUES(?,?,?)";
         try {
             ps = conexion.prepareStatement(insert);
-            ps.setString(1,cliente.getNombre());
-            ps.setString(2,cliente.getApellido());
-            ps.setInt(3,cliente.getMembresia());
+            ps.setString(1, cliente.getNombre());
+            ps.setString(2, cliente.getApellido());
+            ps.setInt(3, cliente.getMembresia());
             ps.executeUpdate();
             return true;
-        }catch (Exception e){
-            System.out.println("Error al insertar cliente: "+e.getMessage());
-        }finally {
+        } catch (Exception e) {
+            System.out.println("Error al insertar cliente: " + e.getMessage());
+        } finally {
             cerrarConexion();
         }
         return false;
